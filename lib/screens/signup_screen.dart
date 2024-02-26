@@ -2,9 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gradebook/common/auth.dart';
 import 'package:gradebook/screens/login_screen.dart';
 import 'package:gradebook/widgets/button.dart';
 import 'package:gradebook/widgets/text_input.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -15,14 +17,21 @@ class SignUpScreen extends StatefulWidget {
 
 class _SignUpScreen extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
+  final AuthHandler _authHandler = AuthHandler();
+  
   String email = ""; 
+  bool _displayEmailStatus = false;
   bool validEmailAddress = false;
 
   @override
   void initState() {
     super.initState();
     _emailController.addListener(() {
-      email = _emailController.text;
+      setState(() {
+        _displayEmailStatus = false;
+        email = _emailController.text;
+        validEmailAddress = validateEmail();
+      });
     });
   }
 
@@ -97,7 +106,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                     ),
                     const SizedBox(height: 15),
                     AnimatedOpacity(
-                      opacity: email.isNotEmpty ? 1.0 : 0.0,
+                      opacity: _displayEmailStatus && email.isNotEmpty ? 1.0 : 0.0,
                       duration: const Duration(milliseconds: 150),
                       child: Row(
                         children: [
@@ -121,9 +130,10 @@ class _SignUpScreen extends State<SignUpScreen> {
                       placeholder: "email address",
                       icon: CupertinoIcons.envelope,
                       controller: _emailController,
+                      keyboardType: TextInputType.emailAddress,
                       onEditingComplete: () => {
                         setState(() {
-                          validEmailAddress = validateEmail();
+                          _displayEmailStatus = true; 
                         })
                       },
                     ),
@@ -132,8 +142,10 @@ class _SignUpScreen extends State<SignUpScreen> {
                       label: "Verify email address",
                       disabled: !validEmailAddress,
                       type: FragmentsButtonType.gradient,
-                      onTap: () {
-                        debugPrint("Login button pressed");
+                      onTap: () async {
+                        User user = await _authHandler.handleTemporarySignUp(email);
+                        user.sendEmailVerification();
+                        debugPrint("Login button pressed ${user.email}");
                       }  
                     ),
                     const SizedBox(height: 35),

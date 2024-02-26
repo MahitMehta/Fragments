@@ -6,6 +6,7 @@ class FragmentTextInput extends StatelessWidget {
     final IconData? icon; 
     final VoidCallback? onEditingComplete;
     final TextEditingController? controller;
+    final TextInputType? keyboardType;
 
     const FragmentTextInput({
       super.key,
@@ -13,13 +14,15 @@ class FragmentTextInput extends StatelessWidget {
       this.obscureText = false, 
       this.icon,
       this.onEditingComplete,
-      this.controller
+      this.controller,
+      this.keyboardType
     });
 
     @override
     Widget build(BuildContext context) {
       return CupertinoTextField(
         controller: controller,
+        keyboardType: keyboardType,
         onEditingComplete: () {
           onEditingComplete?.call();
           FocusScope.of(context).unfocus();

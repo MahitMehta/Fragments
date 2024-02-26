@@ -72,18 +72,36 @@ class _LoginScreenState extends State<LoginScreen> {
                       ],
                     ),
                     const SizedBox(height: 25),
-                    const Column(
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        FragmentTextInput(
+                        const FragmentTextInput(
                           placeholder: "email address",
+                          keyboardType: TextInputType.emailAddress,
                           icon: CupertinoIcons.envelope,
                         ),
-                        SizedBox(height: 10),
-                        FragmentTextInput(
+                        const SizedBox(height: 10),
+                        const FragmentTextInput(
                           placeholder: "password",
                           icon: CupertinoIcons.lock_shield,
                           obscureText: true,
                         ),
+                        const SizedBox(height: 5),
+                        CupertinoButton(
+                          minSize: 20,
+                          padding: const EdgeInsets.fromLTRB(0, 0, 5.0, 0),
+                          onPressed: () {
+                            HapticFeedback.selectionClick();
+                            debugPrint("Forgot password button pressed");
+                          },
+                          child: const Text(        
+                            "Forget password?",
+                            style: TextStyle(
+                              fontSize: 15,
+                              color: Color.fromARGB(255, 62, 62, 62),
+                            ),
+                          ),
+                        )
                       ]
                     ),
                     const SizedBox(height: 25),

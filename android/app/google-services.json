@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "608237436557",
+    "project_id": "fragments-a203e",
+    "storage_bucket": "fragments-a203e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:608237436557:android:f2cb2b109a44d722136cc4",
+        "android_client_info": {
+          "package_name": "com.example.gradebook"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "608237436557-69ma3po87b82jke6ldm4n2aeo3n104k0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAz3xin-Isx0cB2ElzUNRVZ_gGXjWAqszo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "608237436557-69ma3po87b82jke6ldm4n2aeo3n104k0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "608237436557-25l886j3gm4t00pcm4olan5cp9g0qe29.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.gradebook.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
