@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 
 class AuthHandler {
   final FirebaseAuth auth = FirebaseAuth.instance;
@@ -19,10 +20,9 @@ class AuthHandler {
   Future<User> handleTemporarySignUp(email) async {
     String tempPassword = _getTemporaryPassword();
 
-    UserCredential result = await auth.createUserWithEmailAndPassword(
-        email: email, password: tempPassword).catchError((e) {
-          
-    });
+    UserCredential result = await auth
+    .createUserWithEmailAndPassword(
+        email: email, password: tempPassword);
     final User user = result.user!;
 
     return user;

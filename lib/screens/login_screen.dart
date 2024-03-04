@@ -1,7 +1,9 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gradebook/screens/main_tab_navigator.dart';
 import 'package:gradebook/screens/signup_screen.dart';
 import 'package:gradebook/widgets/button.dart';
 import 'package:gradebook/widgets/text_input.dart';
@@ -14,6 +16,58 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+
+  String _email = "";
+  String _password = "";
+
+  bool _loggingIn = false; 
+
+  @override
+  void initState() {
+    super.initState();
+    _emailController.addListener(() {
+      setState(() {
+        _email = _emailController.text;
+      });
+    });
+    _passwordController.addListener(() {
+      setState(() {
+        _password = _passwordController.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _emailController.dispose();
+    _passwordController.dispose();
+    super.dispose();
+  }
+
+  void login() async {
+    debugPrint("Logging in with email: $_email and password: $_password");
+    setState(() { _loggingIn = true; });
+
+    await FirebaseAuth.instance.signInWithEmailAndPassword(
+      email: _email, 
+      password: _password
+    ).then((value) {
+      debugPrint("Logged in with email: $_email");
+
+      Navigator.of(context).pushReplacement(
+        CupertinoPageRoute(
+          builder: (context) => const MainTabNavigator(),
+        ),
+      );
+    }).catchError((error) {
+      debugPrint("Failed to log in with email: $_email");
+    });
+
+    setState(() { _loggingIn = false; });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
@@ -56,7 +110,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           padding: const EdgeInsets.fromLTRB(5.0, 0, 0, 0),
                           onPressed: () {
                             HapticFeedback.selectionClick();
-                            Navigator.of(context).push(
+                            Navigator.of(context).pushReplacement(
                               CupertinoPageRoute(
                                 builder: (context) => const SignUpScreen(),
                               ),
@@ -75,14 +129,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.end,
                       children: [
-                        const FragmentTextInput(
+                        FragmentTextInput(
                           placeholder: "email address",
+                         controller: _emailController,
                           keyboardType: TextInputType.emailAddress,
                           icon: CupertinoIcons.envelope,
                         ),
                         const SizedBox(height: 10),
-                        const FragmentTextInput(
+                        FragmentTextInput(
                           placeholder: "password",
+                          controller: _passwordController,
                           icon: CupertinoIcons.lock_shield,
                           obscureText: true,
                         ),
@@ -108,9 +164,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     FragmentsButton(
                       label: "Log in",
                       type: FragmentsButtonType.gradient,
-                      onTap: () {
-                        debugPrint("Login button pressed");
-                      }  
+                      onTap: login,
+                      disabled: _loggingIn,
+                      loading: _loggingIn,
                     ),
                     const SizedBox(height: 35),
                     Stack(

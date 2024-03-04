@@ -12,15 +12,17 @@ class FragmentsButton extends StatefulWidget {
   final AssetImage? image;  
   final FragmentsButtonType type;
   final bool disabled;
+  final bool loading;
 
   const FragmentsButton({
-    Key? key, 
-    required this.onTap, 
+    super.key, 
     this.label = "", 
-    this.disabled = false,
     this.image,
-    this.type = FragmentsButtonType.matte
-  }) : super(key: key);
+    this.disabled = false,
+    this.loading = false,
+    this.type = FragmentsButtonType.matte,
+    required this.onTap, 
+  });
 
   @override
   State<FragmentsButton> createState() => _FragmentsButtonState();
@@ -38,16 +40,22 @@ class _FragmentsButtonState extends State<FragmentsButton> {
           _isPressed = true;
         });
       },
+      onPanEnd: (_) {
+        setState(() {
+          _isPressed = false;
+        });
+      },
       onTapUp: (_) {
         setState(() {
           _isPressed = false;
         });
       },
       onTap: () {
+        if (widget.disabled || widget.loading) return; 
         widget.onTap();
       },
       child: AnimatedOpacity(
-        opacity: _isPressed || widget.disabled ? 0.65 : 1.0,
+        opacity: _isPressed || widget.disabled || widget.loading ? 0.65 : 1.0,
         duration: const Duration(milliseconds: 150),
         child: Container(
           decoration: BoxDecoration(
@@ -66,12 +74,23 @@ class _FragmentsButtonState extends State<FragmentsButton> {
           width: double.infinity,
           child: Padding(
             padding: const EdgeInsets.all(10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Stack(
               children: [
-                if (widget.image != null) Image(image: widget.image!, width: 20, height: 20),
-                if (widget.image != null && widget.label != "") const SizedBox(width: 5),
-                Text(widget.label)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (widget.image != null) Image(image: widget.image!, width: 20, height: 20),
+                    if (widget.image != null && widget.label != "") const SizedBox(width: 5),
+                    Text(widget.label)
+                  ],
+                ),
+                if (widget.loading) Positioned(
+                  left: 5,
+                  child: CupertinoActivityIndicator(
+                    animating: widget.loading,
+                    radius: 10,
+                  ),
+                )
               ],
             )
           ),
