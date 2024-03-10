@@ -2,14 +2,12 @@ import 'dart:async';
 
 import 'package:animations/animations.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:gradebook/common/auth.dart';
+import 'package:gradebook/api/services/auth.dart';
 import 'package:gradebook/screens/login_screen.dart';
 import 'package:gradebook/screens/main_tab_navigator.dart';
 import 'package:gradebook/widgets/button.dart';
-import 'package:gradebook/widgets/password_meter.dart';
 import 'package:gradebook/widgets/text_input.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -25,7 +23,7 @@ class _SignUpScreen extends State<SignUpScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController = TextEditingController();
   
-  final AuthHandler _authHandler = AuthHandler();
+  final AuthService _authService = AuthService();
   
   int _currentIndex = 0;
 
@@ -48,7 +46,7 @@ class _SignUpScreen extends State<SignUpScreen> {
       setState(() {
         _displayEmailStatus = false;
         _email = _emailController.text;
-        _validEmailAddress = validateEmail();
+        _validEmailAddress = AuthService.validateEmail(_email);
       });
     });
     _passwordController.addListener(() {
@@ -61,12 +59,6 @@ class _SignUpScreen extends State<SignUpScreen> {
         _confirmPassword = _confirmPasswordController.text;
       });
     });
-  }
-
-  bool validateEmail() {
-    return RegExp(
-            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
-        .hasMatch(_email);
   }
 
   void isEmailVerified(Timer timer) async {
@@ -112,7 +104,7 @@ class _SignUpScreen extends State<SignUpScreen> {
     });
     
     try {
-        User user = await _authHandler.handleTemporarySignUp(_email);
+        User user = await _authService.handleTemporarySignUp(_email);
         await user.sendEmailVerification().catchError((error) {
           debugPrint("Error sending email verification: $error");
         });
@@ -211,7 +203,7 @@ class _SignUpScreen extends State<SignUpScreen> {
                           child: const Text(
                             "Log in.",
                             style: TextStyle(
-                              color: Colors.white, // Color.fromARGB(255, 177, 177, 177),
+                              color: Color.fromARGB(255, 255, 255, 255), // Color.fromARGB(255, 177, 177, 177),
                             ),
                           ),
                         )
@@ -255,13 +247,13 @@ class _SignUpScreen extends State<SignUpScreen> {
                                     const SizedBox(width: 10),
                                     Icon(
                                       _validEmailAddress ? CupertinoIcons.check_mark_circled : CupertinoIcons.xmark_circle,
-                                      color: _validEmailAddress ? Colors.green : Colors.red
+                                      //color: _validEmailAddress ? Colors.green : Colors.red
                                     ),
                                     const SizedBox(width: 5),
                                     Text(
                                       _validEmailAddress ? "Valid email" : "Invalid email", 
                                       style: TextStyle(
-                                        color: _validEmailAddress ? Colors.green : Colors.red
+                                        color: _validEmailAddress ? const Color.fromRGBO(76, 175, 80, 1) : const Color.fromRGBO(244, 67, 54, 1)
                                       )
                                     ),
                                   ],

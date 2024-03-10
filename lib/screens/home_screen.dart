@@ -4,7 +4,11 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gradebook/common/fragments_icons.dart';
 import 'package:gradebook/screens/login_screen.dart';
-// import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
+import 'package:gradebook/screens/service_screen.dart';
+import 'package:gradebook/widgets/fragment.dart';
+import 'package:gradebook/widgets/fragments/service.dart';
+import 'package:gradebook/widgets/fragments/sports.dart';
+import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -57,28 +61,27 @@ class _HomeScreenState extends State<HomeScreen> {
                               GestureDetector(
                                 onTap: () {
                                   HapticFeedback.selectionClick();
-                                  // CupertinoScaffold.showCupertinoModalBottomSheet(
-                                  //   expand: true,
-                                  //   context: context,
-                                  //   backgroundColor: const Color.fromARGB(0, 0, 0, 0),
-                                  //   builder: (context) => Stack(
-                                  //     children: <Widget>[
-                                  //       const CupertinoPageScaffold(
-                                  //         child: Center(),
-                                  //       ),
-                                  //       Positioned(
-                                  //         height: 40,
-                                  //         left: 40,
-                                  //         right: 40,
-                                  //         bottom: 20,
-                                  //         child: CupertinoButton(
-                                  //           onPressed: () => {},
-                                  //           child: const Text('Pop back home'),
-                                  //         ),
-                                  //       )
-                                  //     ],
-                                  // )
-                                  // );
+                                  showCupertinoModalBottomSheet(
+                                    // expand: true,
+                                    
+                                    context: context,
+                                    isDismissible: true,
+                                    topRadius: const Radius.circular(35),
+                                    backgroundColor: const Color.fromARGB(255, 10, 10, 10),
+                                    builder: (context) => Container(
+                                      height: MediaQuery.of(context).size.height * 0.5,
+                                      color: const Color.fromARGB(255, 10, 10, 10),
+                                      child: const Center(
+                                        child: Text(
+                                          "Add Fragment",
+                                          style: TextStyle(
+                                            color: Color.fromARGB(255, 255, 255, 255),
+                                            fontSize: 20
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  );
                                 },
                                 child: const Icon(
                                   FragmentsIcons.pencil,
@@ -132,38 +135,71 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
             const SizedBox(height: 25),
-            Center(
-              child: SvgPicture.asset( 
-                "assets/svg/add_fragments.svg", 
-                semanticsLabel: 'Add Fragments', 
-                height: 250, 
-                width: MediaQuery.of(context).size.width, 
-                fit: BoxFit.fill,
-              ),
-            ),
-            const SizedBox(height: 20),
-            const Text.rich(
-              textAlign: TextAlign.center,
-              TextSpan(
-                text: "Click ",
-                style: TextStyle(
-                  color: Color.fromARGB(255, 52, 52, 52),
-                  fontSize: 15
+            Expanded(
+              child: ListView(
+              padding: const EdgeInsets.fromLTRB(0, 0, 0, 35),
+              children: [              
+                Center(
+                  child: Fragment(
+                    name: "Service",
+                    actionLabel: "Record Your Service Hours",
+                    onTap: () {
+                      Navigator.of(context, rootNavigator: true).push(
+                        CupertinoPageRoute(
+                          builder: (context) => const ServiceScreen(),
+                        ),
+                      );
+                    },
+                    child: const ServiceFragment(),
+                  ),
                 ),
-                children: [
-                  WidgetSpan(
-                    child: Icon(
-                      FragmentsIcons.pencil,
-                      size: 20,
-                      color: Color.fromARGB(255, 52, 52, 52)
-                    ),
+                const SizedBox(height: 15),
+                Center(
+                  child: Fragment(
+                    name: "Sports",
+                    actionLabel: "Document Personal Records",
+                    onTap: () {
+                      debugPrint("Sports Fragment Pressed");
+                    },
+                    child: const SportsFragment(),
                   ),
+                ),
+                const SizedBox(height: 25),
+                Center(
+                  child: SvgPicture.asset( 
+                    "assets/svg/add_fragments.svg", 
+                    semanticsLabel: 'Add Fragments', 
+                    height: 250, 
+                    width: MediaQuery.of(context).size.width, 
+                    fit: BoxFit.fill,
+                  ),
+                ),
+                const SizedBox(height: 20),
+                const Text.rich(
+                  textAlign: TextAlign.center,
                   TextSpan(
-                    text: " to add Fragments",
-                  ),
-                ],
-              )
+                    text: "Click ",
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 52, 52, 52),
+                      fontSize: 15
+                    ),
+                    children: [
+                      WidgetSpan(
+                        child: Icon(
+                          FragmentsIcons.pencil,
+                          size: 20,
+                          color: Color.fromARGB(255, 52, 52, 52)
+                        ),
+                      ),
+                      TextSpan(
+                        text: " to add Fragments",
+                      ),
+                    ],
+                  )
+                ),
+              ],
             ),
+            )
           ],
         )
       )

@@ -1,3 +1,5 @@
 {
-    "cmake.sourceDirectory": "/Users/mahitmehta/Desktop/flutter/gradebook/linux"
+    "cmake.sourceDirectory": "/Users/mahitmehta/Desktop/flutter/gradebook/linux",
+    "lldb.library": "/Applications/Xcode.app/Contents/SharedFrameworks/LLDB.framework/Versions/A/LLDB",
+    "lldb.launch.expressions": "native"
 }

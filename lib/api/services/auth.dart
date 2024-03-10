@@ -1,9 +1,14 @@
 import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 
-class AuthHandler {
+class AuthService {
   final FirebaseAuth auth = FirebaseAuth.instance;
+
+  static bool validateEmail(String email) {
+    return RegExp(
+            r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$')
+        .hasMatch(email);
+  }
 
   String _getTemporaryPassword() {
       String tempPassword = "";

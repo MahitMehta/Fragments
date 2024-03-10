@@ -2,7 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 
 import 'package:firebase_core/firebase_core.dart';
-import 'package:gradebook/screens/home_screen.dart';
+import 'package:flutter_cupernino_bottom_sheet/flutter_cupernino_bottom_sheet.dart';
 import 'package:gradebook/screens/main_tab_navigator.dart';
 import 'firebase_options.dart';
 
@@ -53,13 +53,17 @@ class Fragments extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CupertinoApp(
-      title: "Fragments",
-      debugShowCheckedModeBanner: false,
-      theme: const CupertinoThemeData(
-        brightness: Brightness.dark, 
-      ),
-      home: user != null ? const MainTabNavigator() : const LoginScreen(),
+    return CupertinoBottomSheetRepaintBoundary(
+      child:
+        CupertinoApp(
+        title: "Fragments",
+        navigatorKey: cupertinoBottomSheetNavigatorKey,
+        debugShowCheckedModeBanner: false,
+        theme: const CupertinoThemeData(
+          brightness: Brightness.dark, 
+        ),
+        home: user != null ? const MainTabNavigator() : const LoginScreen(),
+      )
     );
   }
 }

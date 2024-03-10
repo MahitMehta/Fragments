@@ -7,12 +7,18 @@ class FragmentTextInput extends StatelessWidget {
     final VoidCallback? onEditingComplete;
     final TextEditingController? controller;
     final TextInputType? keyboardType;
+    final bool? autocorrect;
+    final int? minLines;
+    final int? maxLines;
 
     const FragmentTextInput({
       super.key,
       required this.placeholder,  
       this.obscureText = false, 
+      this.autocorrect = false,
       this.icon,
+      this.minLines = 1,
+      this.maxLines = 1,
       this.onEditingComplete,
       this.controller,
       this.keyboardType
@@ -31,8 +37,11 @@ class FragmentTextInput extends StatelessWidget {
         placeholderStyle: const TextStyle(
           color: Color.fromARGB(255, 62, 62, 62),
         ),
+        textAlignVertical: TextAlignVertical.top,
         padding: const EdgeInsets.all(10.0),
-        autocorrect: false,
+        minLines: minLines,
+        maxLines: maxLines,
+        autocorrect: autocorrect!,
         obscureText: obscureText,
         prefix: icon != null ? Padding(
           padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
