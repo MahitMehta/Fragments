@@ -1,16 +1,14 @@
-# gradebook
+# Fragments
 
-A new Flutter project.
+An app built to showcase your high school accomplishments!
 
-## Getting Started
+## Format Dart Code
 
-This project is a starting point for a Flutter application.
+- dart format . -l 120
 
-A few resources to get you started if this is your first Flutter project:
+## Build When Error
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. rm -rf "$HOME/Library/Developer/Xcode/DerivedData/*"
+2. rm -rf "$HOME/Library/Caches/CocoaPods"    
+3. rm -rf Pods      
+4. arch -x86_64 pod update

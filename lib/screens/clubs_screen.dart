@@ -3,41 +3,45 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:gradebook/api/models/club.dart';
 import 'package:gradebook/api/models/service_record.dart';
+import 'package:gradebook/api/services/club.dart';
 import 'package:gradebook/api/services/service.dart';
+import 'package:gradebook/screens/create_club_screen.dart';
 import 'package:gradebook/screens/create_service_screen.dart';
 import 'package:gradebook/widgets/button.dart';
+import 'package:gradebook/widgets/club_record.dart';
 import 'package:gradebook/widgets/service_record.dart';
 
-class ServiceScreen extends StatefulWidget {
-  const ServiceScreen({super.key});
+class ClubsScreen extends StatefulWidget {
+  const ClubsScreen({super.key});
 
   @override
-  State<ServiceScreen> createState() => _ServiceScreenState();
+  State<ClubsScreen> createState() => _ClubsScreenState();
 }
 
-class _ServiceScreenState extends State<ServiceScreen> {
+class _ClubsScreenState extends State<ClubsScreen> {
   static const igShareChannel = MethodChannel('com.mahitm.fragments/igShare');
-  final ServicesService _servicesService = ServicesService();
+  final ClubService _clubsService = ClubService();
 
-  StreamController<QuerySnapshot<IServiceRecord>> recordStreamController = StreamController();
+  StreamController<QuerySnapshot<IClubRecord>> recordStreamController = StreamController();
   bool _isLoadingRecords = true;
   bool _addedNewRecord = false;
 
   @override
   void initState() {
     super.initState();
-    recordStreamController.addStream(_servicesService.getServiceRecords().asStream()).then((value) => setState(() {
+    recordStreamController.addStream(_clubsService.getClubRecords().asStream()).then((value) => setState(() {
           _isLoadingRecords = false;
         }));
   }
 
-  Widget _buildServiceRecord(BuildContext context, QueryDocumentSnapshot<IServiceRecord> data) {
+  Widget _buildServiceRecord(BuildContext context, QueryDocumentSnapshot<IClubRecord> data) {
     final serviceRecord = data.data();
 
     return Padding(
         padding: const EdgeInsets.only(bottom: 15),
-        child: ServiceRecord(
+        child: ClubRecord(
             record: serviceRecord,
             onShare: (Uint8List pngBytes) async {
               final String result = await igShareChannel.invokeMethod("SHARE", pngBytes);
@@ -45,14 +49,14 @@ class _ServiceScreenState extends State<ServiceScreen> {
             }));
   }
 
-  Widget _buildRecordsListView(BuildContext context, List<QueryDocumentSnapshot<IServiceRecord>> snapshot) {
+  Widget _buildRecordsListView(BuildContext context, List<QueryDocumentSnapshot<IClubRecord>> snapshot) {
     return ListView(
       children: snapshot.map((data) => _buildServiceRecord(context, data)).toList(),
     );
   }
 
   Widget _buildRecords() {
-    return StreamBuilder<QuerySnapshot<IServiceRecord>>(
+    return StreamBuilder<QuerySnapshot<IClubRecord>>(
       stream: recordStreamController.stream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox.shrink();
@@ -68,7 +72,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
     });
     debugPrint("Reloading Records");
     await Future.delayed(const Duration(milliseconds: 500));
-    await _servicesService.getServiceRecords().then((value) {
+    await _clubsService.getClubRecords().then((value) {
       debugPrint("Successfully Reloaded Records");
       recordStreamController.add(value);
     }).whenComplete(() => setState(() {
@@ -80,18 +84,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-          middle: Text("Service Fragment"),
+          middle: Text("Club Fragment"),
           backgroundColor: Color.fromARGB(255, 0, 0, 0),
-          // leading: IconButton(
-          //   onTap: () {
-          //     HapticFeedback.selectionClick();
-          //     Navigator.of(context).pop(_addedNewRecord);
-          //   },
-          //   icon: const Icon(
-          //     CupertinoIcons.back, color:
-          //     Color.fromARGB(255, 14, 122, 254)
-          //   ),
-          // ),
         ),
         child: SafeArea(
             child: Padding(
@@ -103,10 +97,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
               const SizedBox(height: 15),
               FragmentsButton(
                   type: FragmentsButtonType.gradient,
-                  label: "Record New Service",
+                  label: "Record New Club",
                   onTap: () async {
                     final update = await Navigator.of(context)
-                        .push(CupertinoPageRoute(builder: (context) => const CreateServiceScreen()));
+                        .push(CupertinoPageRoute(builder: (context) => const CreateClubScreen()));
 
                     if (!context.mounted || !update) return;
                     setState(() {
@@ -119,7 +113,7 @@ class _ServiceScreenState extends State<ServiceScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "Service Records",
+                    "Club Records",
                     style: TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 30),
                   ),
                   GestureDetector(

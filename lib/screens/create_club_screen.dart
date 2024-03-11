@@ -1,28 +1,31 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:gradebook/api/services/club.dart';
 import 'package:gradebook/api/services/service.dart';
 import 'package:gradebook/widgets/button.dart';
 import 'package:gradebook/widgets/datepicker.dart';
 import 'package:gradebook/widgets/text_input.dart';
 
-class CreateServiceScreen extends StatefulWidget {
-  const CreateServiceScreen({super.key});
+class CreateClubScreen extends StatefulWidget {
+  const CreateClubScreen({super.key});
 
   @override
-  State<CreateServiceScreen> createState() => _CreateServiceScreenState();
+  State<CreateClubScreen> createState() => _CreateClubScreenState();
 }
 
-class _CreateServiceScreenState extends State<CreateServiceScreen> {
+class _CreateClubScreenState extends State<CreateClubScreen> {
   final TextEditingController _organizationController = TextEditingController();
+  final TextEditingController _positionHeldController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final ServicesService _servicesService = ServicesService();
+  final ClubService _clubService = ClubService();
 
-  final GlobalKey<_CreateServiceScreenState> globalKey = GlobalKey();
+  final GlobalKey<_CreateClubScreenState> globalKey = GlobalKey();
 
   String _organization = "";
+  String _positionHeld = "";
   String _description = "";
-  Duration _hoursServed = const Duration(hours: 0, minutes: 0);
-  DateTime _dateOfService = DateTime.now();
+  DateTime _startDate = DateTime.now();
+  DateTime _endDate = DateTime.now();
   bool _addingRecord = false;
 
   @override
@@ -31,6 +34,11 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
     _organizationController.addListener(() {
       setState(() {
         _organization = _organizationController.text;
+      });
+    });
+    _positionHeldController.addListener(() {
+      setState(() {
+        _positionHeld = _positionHeldController.text;
       });
     });
     _descriptionController.addListener(() {
@@ -52,7 +60,7 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
       _addingRecord = true;
     });
     await Future.delayed(const Duration(milliseconds: 250));
-    await _servicesService.addServiceRecord(_organization, _description, _hoursServed, _dateOfService).then((value) {
+    await _clubService.addClubRecord(_organization, _positionHeld, _description, _startDate, _endDate).then((value) {
       setState(() {
         _addingRecord = false;
       });
@@ -68,7 +76,7 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-          middle: Text("Record Service"),
+          middle: Text("Record Club"),
           backgroundColor: Color.fromARGB(255, 0, 0, 0),
         ),
         child: SingleChildScrollView(
@@ -82,7 +90,7 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
                   const SizedBox(height: 25),
                   Center(
                     child: SvgPicture.asset(
-                      "assets/svg/clock_outline.svg",
+                      "assets/svg/club.svg",
                       height: 300,
                       width: 300,
                       fit: BoxFit.contain,
@@ -91,32 +99,40 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
                   const SizedBox(height: 25),
                   FragmentTextInput(
                     controller: _organizationController,
-                    placeholder: "Organization",
+                    placeholder: "Club Name",
                     icon: CupertinoIcons.building_2_fill,
                     keyboardType: TextInputType.name,
                     onEditingComplete: () {},
                   ),
                   const SizedBox(height: 10),
+                  FragmentTextInput(
+                    controller: _positionHeldController,
+                    placeholder: "Position Held",
+                    icon: CupertinoIcons.person_crop_square_fill,
+                    keyboardType: TextInputType.name,
+                    onEditingComplete: () {},
+                  ),
+                  const SizedBox(height: 10),
                   FragmentsDatePicker(
-                    label: "Hours Served",
-                    duration: _hoursServed,
-                    mode: FragmentsDatePickerType.time,
-                    onTimerDurationChanged: (duration) {
-                      debugPrint(duration.toString());
+                    label: "Start Date",
+                    dateTime: _startDate,
+                    mode: FragmentsDatePickerType.date,
+                    onDateTimeChanged: (dateTime) {
+                      debugPrint(dateTime.toString());
                       setState(() {
-                        _hoursServed = duration;
+                        _startDate = dateTime;
                       });
                     },
                   ),
                   const SizedBox(height: 10),
                   FragmentsDatePicker(
-                    label: "Date of Service",
-                    dateTime: _dateOfService,
+                    label: "End Date",
+                    dateTime: _endDate,
                     mode: FragmentsDatePickerType.date,
                     onDateTimeChanged: (dateTime) {
                       debugPrint(dateTime.toString());
                       setState(() {
-                        _dateOfService = dateTime;
+                        _endDate = dateTime;
                       });
                     },
                   ),
@@ -130,20 +146,11 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
                   ),
                   const SizedBox(height: 15),
                   FragmentsButton(
-                      disabled: _organization.isEmpty || _description.isEmpty || _hoursServed.inMinutes == 0,
+                      disabled: _organization.isEmpty || _description.isEmpty,
                       type: FragmentsButtonType.gradient,
-                      label: "Record Service",
+                      label: "Record Club",
                       loading: _addingRecord,
                       onTap: addRecord),
-                  const SizedBox(height: 25),
-                  const Text(
-                    "\"Do small things with great love.\"",
-                    style: TextStyle(color: Color.fromARGB(255, 30, 30, 30), fontSize: 17, fontStyle: FontStyle.italic),
-                  ),
-                  const Text(
-                    "- Mother Teresa",
-                    style: TextStyle(color: Color.fromARGB(255, 30, 30, 30), fontSize: 17, fontStyle: FontStyle.italic),
-                  )
                 ],
               ),
             ))));

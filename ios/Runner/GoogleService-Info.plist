@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>608237436557-jbnsg4kg14gkat13cl15udkfk2hdi9ne.apps.googleusercontent.com</string>
+	<string>608237436557-b1ppvnhasseu2mhn4jjkchd4b1549bj1.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.608237436557-jbnsg4kg14gkat13cl15udkfk2hdi9ne</string>
+	<string>com.googleusercontent.apps.608237436557-b1ppvnhasseu2mhn4jjkchd4b1549bj1</string>
 	<key>API_KEY</key>
 	<string>AIzaSyD9LB6Qofy9CwtAXAu8JwlrEtRoZtk1Y7Y</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.gradebook</string>
+	<string>com.mahitm.fragments</string>
 	<key>PROJECT_ID</key>
 	<string>fragments-a203e</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:608237436557:ios:646b576b4b9793f0136cc4</string>
+	<string>1:608237436557:ios:f1b3bd45226f494e136cc4</string>
 </dict>
 </plist>

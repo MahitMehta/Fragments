@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 
 class Share extends StatelessWidget {
-  final VoidCallback onTap; 
+  final VoidCallback onTap;
 
   const Share({super.key, required this.onTap});
 
@@ -13,7 +13,7 @@ class Share extends StatelessWidget {
         HapticFeedback.selectionClick();
         onTap();
       },
-      child:  const Icon(
+      child: const Icon(
         CupertinoIcons.share,
         size: 25,
         color: Color.fromARGB(255, 52, 52, 52),

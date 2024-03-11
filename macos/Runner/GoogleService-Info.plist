@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.example.gradebook.RunnerTests</string>
+	<string>com.mahitm.fragments.RunnerTests</string>
 	<key>PROJECT_ID</key>
 	<string>fragments-a203e</string>
 	<key>STORAGE_BUCKET</key>

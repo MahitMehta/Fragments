@@ -35,7 +35,7 @@ import 'package:gradebook/screens/login_screen.dart';
 //     debugPrint(response.request?.method.toString());
 //   }
 
- main() async {
+main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -47,23 +47,21 @@ import 'package:gradebook/screens/login_screen.dart';
 }
 
 class Fragments extends StatelessWidget {
-  final User? user; 
+  final User? user;
 
   const Fragments({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
     return CupertinoBottomSheetRepaintBoundary(
-      child:
-        CupertinoApp(
-        title: "Fragments",
-        navigatorKey: cupertinoBottomSheetNavigatorKey,
-        debugShowCheckedModeBanner: false,
-        theme: const CupertinoThemeData(
-          brightness: Brightness.dark, 
-        ),
-        home: user != null ? const MainTabNavigator() : const LoginScreen(),
-      )
-    );
+        child: CupertinoApp(
+      title: "Fragments",
+      navigatorKey: cupertinoBottomSheetNavigatorKey,
+      debugShowCheckedModeBanner: false,
+      theme: const CupertinoThemeData(
+        brightness: Brightness.dark,
+      ),
+      home: user != null ? const MainTabNavigator() : const LoginScreen(),
+    ));
   }
 }

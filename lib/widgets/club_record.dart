@@ -3,22 +3,23 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gradebook/api/models/service_record.dart';
+import 'package:gradebook/api/models/club.dart';
+
 import 'package:gradebook/widgets/button.dart';
 import 'package:gradebook/widgets/share.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class ServiceRecord extends StatefulWidget {
-  final IServiceRecord record;
+class ClubRecord extends StatefulWidget {
+  final IClubRecord record;
   final void Function(Uint8List) onShare;
 
-  const ServiceRecord({super.key, required this.record, required this.onShare});
+  const ClubRecord({super.key, required this.record, required this.onShare});
 
   @override
-  State<ServiceRecord> createState() => _ServiceRecordState();
+  State<ClubRecord> createState() => _ClubRecordState();
 }
 
-class _ServiceRecordState extends State<ServiceRecord> with TickerProviderStateMixin {
+class _ClubRecordState extends State<ClubRecord> with TickerProviderStateMixin {
   final GlobalKey _globalKey = GlobalKey();
 
   late final AnimationController _controller =
@@ -70,19 +71,34 @@ class _ServiceRecordState extends State<ServiceRecord> with TickerProviderStateM
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.record.organization,
+                          widget.record.clubName,
                           style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20),
                         ),
                         const SizedBox(height: 3),
-                        Text(
-                          "${widget.record.dateOfService.month}/${widget.record.dateOfService.day}/${widget.record.dateOfService.year}",
-                          style: const TextStyle(color: Color.fromARGB(255, 177, 177, 177), fontSize: 15),
-                        ),
+                        Row(
+                          children: [
+                            Text(
+                              "${widget.record.startDate.month}/${widget.record.startDate.day}/${widget.record.startDate.year}",
+                              style: const TextStyle(color: Color.fromARGB(255, 177, 177, 177), fontSize: 15),
+                            ),
+                            const SizedBox(width: 5),
+                            const Text(
+                              "-",
+                              style: TextStyle(color: Color.fromARGB(255, 177, 177, 177), fontSize: 15),
+                            ),
+                            const SizedBox(width: 5),
+                            Text(
+                              "${widget.record.endDate.month}/${widget.record.endDate.day}/${widget.record.endDate.year}",
+                              style: const TextStyle(color: Color.fromARGB(255, 177, 177, 177), fontSize: 15),
+                            ),
+
+                          ],
+                        )
                       ],
                     ),
                     // TODO: Text gradient vs. background gradient
                     Text(
-                        "${Duration(minutes: widget.record.minutesServed).inHours}h ${Duration(minutes: widget.record.minutesServed).inMinutes.remainder(60)}m",
+                        widget.record.positionHeld,
                         style: TextStyle(
                             fontSize: 18,
                             foreground: Paint()

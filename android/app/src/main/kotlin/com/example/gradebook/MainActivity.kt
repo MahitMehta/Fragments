@@ -1,4 +1,4 @@
-package com.example.gradebook
+package com.mahitm.fragments
 
 import io.flutter.embedding.android.FlutterActivity
 
