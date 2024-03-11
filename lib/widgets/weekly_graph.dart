@@ -4,11 +4,15 @@ import 'dart:math';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gradebook/api/models/service_record.dart';
-import 'package:gradebook/api/services/service.dart';
 import 'package:gradebook/widgets/dashed_line.dart';
 
 class WeeklyGraph extends StatefulWidget {
-  const WeeklyGraph({super.key});
+  final StreamController<QuerySnapshot<IServiceRecord>> recordStreamController;
+
+  const WeeklyGraph({
+    super.key,
+    required this.recordStreamController
+  });
 
   @override
   State<WeeklyGraph> createState() => _WeeklyGraphState();
@@ -16,15 +20,6 @@ class WeeklyGraph extends StatefulWidget {
 
 class _WeeklyGraphState extends State<WeeklyGraph> {
   static final List<String> _days = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  final ServicesService _servicesService = ServicesService();
-
-  StreamController<QuerySnapshot<IServiceRecord>> recordStreamController = StreamController();
-
-  @override
-  void initState() {
-    super.initState();
-    recordStreamController.addStream(_servicesService.getWeeklyService().asStream());
-  }
 
   List<int> tallyMinutes(List<QueryDocumentSnapshot<IServiceRecord>> snapshots) {
     final List<int> hours = List.filled(7, 0);
@@ -148,7 +143,7 @@ class _WeeklyGraphState extends State<WeeklyGraph> {
 
   Widget _buildBarGraph() {
     return StreamBuilder<QuerySnapshot<IServiceRecord>>(
-      stream: recordStreamController.stream,
+      stream: widget.recordStreamController.stream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox.shrink();
 

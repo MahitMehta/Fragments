@@ -4,14 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:gradebook/api/models/club.dart';
-import 'package:gradebook/api/models/service_record.dart';
 import 'package:gradebook/api/services/club.dart';
-import 'package:gradebook/api/services/service.dart';
 import 'package:gradebook/screens/create_club_screen.dart';
-import 'package:gradebook/screens/create_service_screen.dart';
 import 'package:gradebook/widgets/button.dart';
 import 'package:gradebook/widgets/club_record.dart';
-import 'package:gradebook/widgets/service_record.dart';
 
 class ClubsScreen extends StatefulWidget {
   const ClubsScreen({super.key});
@@ -43,8 +39,8 @@ class _ClubsScreenState extends State<ClubsScreen> {
         padding: const EdgeInsets.only(bottom: 15),
         child: ClubRecord(
             record: serviceRecord,
-            onShare: (Uint8List pngBytes) async {
-              final String result = await igShareChannel.invokeMethod("SHARE", pngBytes);
+            onShare: (Uint8List pngBytes, String type) async {
+              final String result = await igShareChannel.invokeMethod(type, pngBytes);
               debugPrint(result);
             }));
   }

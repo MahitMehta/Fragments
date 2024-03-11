@@ -39,8 +39,8 @@ class _ServiceScreenState extends State<ServiceScreen> {
         padding: const EdgeInsets.only(bottom: 15),
         child: ServiceRecord(
             record: serviceRecord,
-            onShare: (Uint8List pngBytes) async {
-              final String result = await igShareChannel.invokeMethod("SHARE", pngBytes);
+            onShare: (Uint8List pngBytes, String type) async {
+              final String result = await igShareChannel.invokeMethod(type, pngBytes);
               debugPrint(result);
             }));
   }

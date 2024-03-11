@@ -10,7 +10,7 @@
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		173729682B9CFAC40085856E /* FacebookCore in Frameworks */ = {isa = PBXBuildFile; productRef = 173729672B9CFAC40085856E /* FacebookCore */; };
 		1737296A2B9CFAC40085856E /* FacebookShare in Frameworks */ = {isa = PBXBuildFile; productRef = 173729692B9CFAC40085856E /* FacebookShare */; };
-		1737296C2B9CFD3B0085856E /* FragmentsIGShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 1737296B2B9CFD3B0085856E /* FragmentsIGShare.m */; };
+		1737296C2B9CFD3B0085856E /* FragmentsShare.m in Sources */ = {isa = PBXBuildFile; fileRef = 1737296B2B9CFD3B0085856E /* FragmentsShare.m */; };
 		1772BFB46FDDB141F81CF24E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = CDE0B4276EA820044734B50A /* GoogleService-Info.plist */; };
 		2AA15D0327CE65C0E5068593 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 89AF73B583BBDD8F1D0EA4FD /* Pods_RunnerTests.framework */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
@@ -50,8 +50,8 @@
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
 		173202032B9D4478007304C5 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
-		1737296B2B9CFD3B0085856E /* FragmentsIGShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FragmentsIGShare.m; sourceTree = "<group>"; };
-		174AAC602B9D00990046F508 /* FragmentsIGShare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FragmentsIGShare.h; sourceTree = "<group>"; };
+		1737296B2B9CFD3B0085856E /* FragmentsShare.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FragmentsShare.m; sourceTree = "<group>"; };
+		174AAC602B9D00990046F508 /* FragmentsShare.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FragmentsShare.h; sourceTree = "<group>"; };
 		1FE7FFDC1603A36DC19F907E /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -150,8 +150,8 @@
 				1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */,
 				74858FAE1ED2DC5600515810 /* AppDelegate.swift */,
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
-				1737296B2B9CFD3B0085856E /* FragmentsIGShare.m */,
-				174AAC602B9D00990046F508 /* FragmentsIGShare.h */,
+				1737296B2B9CFD3B0085856E /* FragmentsShare.m */,
+				174AAC602B9D00990046F508 /* FragmentsShare.h */,
 			);
 			path = Runner;
 			sourceTree = "<group>";
@@ -417,7 +417,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
-				1737296C2B9CFD3B0085856E /* FragmentsIGShare.m in Sources */,
+				1737296C2B9CFD3B0085856E /* FragmentsShare.m in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

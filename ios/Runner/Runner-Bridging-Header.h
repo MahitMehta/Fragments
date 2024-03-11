@@ -1,2 +1,2 @@
 #import "GeneratedPluginRegistrant.h"
-#import "FragmentsIGShare.h"
+#import "FragmentsShare.h"

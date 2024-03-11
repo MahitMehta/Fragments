@@ -4,14 +4,13 @@ import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
 import 'package:gradebook/api/models/club.dart';
-
-import 'package:gradebook/widgets/button.dart';
 import 'package:gradebook/widgets/share.dart';
+import 'package:gradebook/widgets/share_menu.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
 class ClubRecord extends StatefulWidget {
   final IClubRecord record;
-  final void Function(Uint8List) onShare;
+  final void Function(Uint8List, String) onShare;
 
   const ClubRecord({super.key, required this.record, required this.onShare});
 
@@ -130,49 +129,25 @@ class _ClubRecordState extends State<ClubRecord> with TickerProviderStateMixin {
                             context: context,
                             isDismissible: true,
                             builder: (context) {
-                              return Container(
-                                padding: const EdgeInsets.all(20),
-                                decoration: const BoxDecoration(
-                                  color: Color.fromARGB(255, 10, 10, 10),
-                                ),
-                                width: MediaQuery.of(context).size.width,
-                                height: 200,
-                                child: Column(
-                                  children: [
-                                    const Text(
-                                      "Share Record",
-                                      style: TextStyle(
-                                        color: Color.fromARGB(255, 255, 255, 255),
-                                        fontSize: 30,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 15),
-                                    Row(
-                                      children: [
-                                        const Image(
-                                          image: AssetImage("assets/icons/instagram.png"),
-                                          width: 40,
-                                          height: 40
-                                        ),
-                                        const SizedBox(width: 10),
-                                        Expanded(
-                                          child: FragmentsButton(
-                                            type: FragmentsButtonType.gradient,
-                                            label: "Share to your Instagram Story",
-                                            onTap: () async {
-                                                var png = await _capturePng();
-                                                if (png != null) {
-                                                  widget.onShare(png);
-                                                }
-                                            }
-                                          ),
-                                        )
-                                      ],
-                                    )
-                                  
-                                  ]
-                                
-                                )
+                              return ShareMenu(
+                                onShareFB: () async {
+                                  final pngBytes = await _capturePng();
+                                  if (pngBytes != null) {
+                                    widget.onShare(pngBytes, "SHARE_FB");
+                                  }
+                                },
+                                onShareIG: () async {
+                                  final pngBytes = await _capturePng();
+                                  if (pngBytes != null) {
+                                    widget.onShare(pngBytes, "SHARE_IG");
+                                  }
+                                },
+                                onShareFBDirectly: () async {
+                                  final pngBytes = await _capturePng();
+                                  if (pngBytes != null) {
+                                    widget.onShare(pngBytes, "SHARE_FB_DIALOG");
+                                  }
+                                },
                               );
                             });
                         
