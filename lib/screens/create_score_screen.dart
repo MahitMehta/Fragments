@@ -91,7 +91,7 @@ class _CreateSportsScreenState extends State<CreateScoreScreen> {
                   const SizedBox(height: 25),
                   Center(
                     child: SvgPicture.asset(
-                      "assets/svg/sports_two.svg",
+                      "assets/svg/scores_three.svg",
                       height: 300,
                       width: 300,
                       fit: BoxFit.contain,
