@@ -1,14 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 
-class SportsFragment extends StatefulWidget {
-  const SportsFragment({super.key});
+class ScoresFragment extends StatefulWidget {
+  const ScoresFragment({super.key});
 
   @override
-  State<SportsFragment> createState() => _SportsFragmentState();
+  State<ScoresFragment> createState() => _ScoresFragmentState();
 }
 
-class _SportsFragmentState extends State<SportsFragment> {
+class _ScoresFragmentState extends State<ScoresFragment> {
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -16,7 +16,7 @@ class _SportsFragmentState extends State<SportsFragment> {
       children: [
         Center(
           child: SvgPicture.asset(
-            "assets/svg/sports_one_v2.svg",
+            "assets/svg/exams.svg",
             height: 150,
             width: 300,
             fit: BoxFit.contain,

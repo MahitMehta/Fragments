@@ -12,7 +12,8 @@ class ClubService {
     return "users/${_auth.currentUser!.uid}/$_collectionName";
   }
 
-  Future addClubRecord(String clubName, String positionHeld, String description, DateTime startDate, DateTime endDate) async {
+  Future addClubRecord(
+      String clubName, String positionHeld, String description, DateTime startDate, DateTime endDate) async {
     final IClubRecord clubRecord = IClubRecord(
       clubName: clubName,
       positionHeld: positionHeld,
@@ -37,7 +38,7 @@ class ClubService {
         .withConverter(
           fromFirestore: IClubRecord.fromFirestore,
           toFirestore: (IClubRecord clubRecord, options) => clubRecord.toFirestore(),
-        ) 
+        )
         .orderBy("endDate", descending: true)
         .get();
   }

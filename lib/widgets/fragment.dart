@@ -9,10 +9,10 @@ class Fragment extends StatefulWidget {
   final String name;
   final String actionLabel;
   final VoidCallback onTap;
-  final VoidCallback? onDelete; 
+  final VoidCallback? onDelete;
   final Widget child;
   final bool? preview;
-  final bool? editing; 
+  final bool? editing;
 
   const Fragment(
       {super.key,
@@ -41,28 +41,27 @@ class _FragmentState extends State<Fragment> {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-             Padding(
-                padding: const EdgeInsets.only(left: 25),
-                child: Text(
-                  "${widget.name} Fragment",
-                  style: const TextStyle(color: Color.fromARGB(255, 52, 52, 52), fontSize: 15),
-                ),
+            Padding(
+              padding: const EdgeInsets.only(left: 25),
+              child: Text(
+                "${widget.name} Fragment",
+                style: const TextStyle(color: Color.fromARGB(255, 52, 52, 52), fontSize: 15),
               ),
-              widget.editing!
-                  ? Padding(
-                      padding: const EdgeInsets.only(right: 35),
-                      child: FragmentsIconButton(
-                        icon: const Icon(
-                          CupertinoIcons.trash,
-                          color: Color.fromARGB(255, 200, 55, 44),
-                          size: 18,
-                        ),
-                        onTap: () {
-                          widget.onDelete!();
-                        },
-                      )
-                    )
-                  : const SizedBox.shrink()
+            ),
+            widget.editing!
+                ? Padding(
+                    padding: const EdgeInsets.only(right: 35),
+                    child: FragmentsIconButton(
+                      icon: const Icon(
+                        CupertinoIcons.trash,
+                        color: Color.fromARGB(255, 200, 55, 44),
+                        size: 18,
+                      ),
+                      onTap: () {
+                        widget.onDelete!();
+                      },
+                    ))
+                : const SizedBox.shrink()
           ],
         ),
         const SizedBox(height: 5),

@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/widgets.dart';
-import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class TermsAndConditionsScreen extends StatelessWidget {
+class PrivacyScreen extends StatelessWidget {
+  const PrivacyScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
       navigationBar: const CupertinoNavigationBar(
-        middle: Text("Fragments TOC"),
+        middle: Text("Fragments Privacy"),
         backgroundColor: Color.fromARGB(255, 0, 0, 0),
       ),
       child: SafeArea(
@@ -16,7 +16,7 @@ class TermsAndConditionsScreen extends StatelessWidget {
         child: ListView(
           children: const [
             Text(
-              "Terms and Conditions",
+              "Privacy Policy",
               style: TextStyle(
                 color: Color.fromARGB(255, 255, 255, 255),
                 fontSize: 30,

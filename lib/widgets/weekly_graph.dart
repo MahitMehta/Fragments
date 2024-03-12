@@ -9,10 +9,7 @@ import 'package:gradebook/widgets/dashed_line.dart';
 class WeeklyGraph extends StatefulWidget {
   final StreamController<QuerySnapshot<IServiceRecord>> recordStreamController;
 
-  const WeeklyGraph({
-    super.key,
-    required this.recordStreamController
-  });
+  const WeeklyGraph({super.key, required this.recordStreamController});
 
   @override
   State<WeeklyGraph> createState() => _WeeklyGraphState();

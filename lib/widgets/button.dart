@@ -58,7 +58,11 @@ class _FragmentsButtonState extends State<FragmentsButton> {
             duration: const Duration(milliseconds: 150),
             child: Container(
               decoration: BoxDecoration(
-                color: FragmentsButtonType.matte == widget.type ? const Color.fromARGB(255, 30, 30, 30) : FragmentsButtonType.dark == widget.type ? const Color.fromARGB(255, 15, 15, 15) : null,
+                color: FragmentsButtonType.matte == widget.type
+                    ? const Color.fromARGB(255, 30, 30, 30)
+                    : FragmentsButtonType.dark == widget.type
+                        ? const Color.fromARGB(255, 15, 15, 15)
+                        : null,
                 borderRadius: BorderRadius.circular(5),
                 gradient: widget.type == FragmentsButtonType.gradient
                     ? const LinearGradient(
@@ -81,13 +85,19 @@ class _FragmentsButtonState extends State<FragmentsButton> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           if (widget.image != null) Image(image: widget.image!, width: 20, height: 20),
-                          if (widget.icon != null) Icon(widget.icon, color: FragmentsButtonType.dark == widget.type ? const Color.fromARGB(255, 177, 177, 177) : const Color.fromARGB(255, 255, 255, 255)),
+                          if (widget.icon != null)
+                            Icon(widget.icon,
+                                color: FragmentsButtonType.dark == widget.type
+                                    ? const Color.fromARGB(255, 177, 177, 177)
+                                    : const Color.fromARGB(255, 255, 255, 255)),
                           if ((widget.image != null || widget.icon != null) && widget.label != "")
                             const SizedBox(width: 5),
                           Text(
                             widget.label,
                             style: TextStyle(
-                              color: FragmentsButtonType.dark == widget.type ? const Color.fromARGB(255, 177, 177, 177) : const Color.fromARGB(255, 255, 255, 255),
+                              color: FragmentsButtonType.dark == widget.type
+                                  ? const Color.fromARGB(255, 177, 177, 177)
+                                  : const Color.fromARGB(255, 255, 255, 255),
                             ),
                           )
                         ],

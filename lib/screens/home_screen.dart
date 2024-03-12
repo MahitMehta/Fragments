@@ -8,9 +8,12 @@ import 'package:gradebook/api/models/widget.dart';
 import 'package:gradebook/api/services/widget.dart';
 import 'package:gradebook/common/fragments_icons.dart';
 import 'package:gradebook/screens/clubs_screen.dart';
+import 'package:gradebook/screens/scores_screens.dart';
 import 'package:gradebook/screens/service_screen.dart';
+import 'package:gradebook/screens/sports_screen.dart';
 import 'package:gradebook/widgets/fragment.dart';
 import 'package:gradebook/widgets/fragments/clubs.dart';
+import 'package:gradebook/widgets/fragments/scores.dart';
 import 'package:gradebook/widgets/fragments/service.dart';
 import 'package:gradebook/widgets/fragments/sports.dart';
 import 'package:gradebook/widgets/icon_button.dart';
@@ -65,9 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildWidgetsListView(BuildContext context, List<QueryDocumentSnapshot<IWidget>> snapshot) {
-    return 
-    
-      ListView(
+    return ListView(
       padding: const EdgeInsets.fromLTRB(0, 0, 0, 35),
       children: [
         ...snapshot.map((data) {
@@ -107,9 +108,20 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Fragment(
                     name: "Sports",
                     editing: isEditing,
+                    onDelete: () {
+                      debugPrint("Deleting Sports Fragment");
+
+                      _widgetsService.deleteWidget(data.id).then((value) {
+                        refreshWidgets();
+                      });
+                    },
                     actionLabel: "Document Personal Records",
-                    onTap: () {
-                      debugPrint("Sports Fragment Pressed");
+                    onTap: () async {
+                      await Navigator.of(context, rootNavigator: true).push(
+                        CupertinoPageRoute(
+                          builder: (context) => const SportsScreen(),
+                        ),
+                      );
                     },
                     child: const SportsFragment(),
                   ),
@@ -139,6 +151,31 @@ class _HomeScreenState extends State<HomeScreen> {
                       debugPrint("Update: $update");
                     },
                     child: const ClubsFragment(),
+                  ),
+                ));
+          } else if (widget.name == "scores") {
+            return Padding(
+                padding: const EdgeInsets.only(bottom: 15),
+                child: Center(
+                  child: Fragment(
+                    name: "Scores",
+                    editing: isEditing,
+                    onDelete: () {
+                      debugPrint("Deleting Scores Fragment");
+
+                      _widgetsService.deleteWidget(data.id).then((value) {
+                        refreshWidgets();
+                      });
+                    },
+                    actionLabel: "Document Academic Scores",
+                    onTap: () async {
+                      await Navigator.of(context, rootNavigator: true).push(
+                        CupertinoPageRoute(
+                          builder: (context) => const ScoresScreen(),
+                        ),
+                      );
+                    },
+                    child: const ScoresFragment(),
                   ),
                 ));
           } else {
@@ -214,17 +251,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       SizedBox(
                         width: 30,
-                        child: _isLoadingWidgets ? const CupertinoActivityIndicator() : FragmentsIconButton(
-                          icon: const Icon(
-                            CupertinoIcons.arrow_clockwise,
-                            size: 25,
-                            color: Color.fromARGB(255, 255, 255, 255),
-                          ),
-                          onTap: () {
-                            HapticFeedback.selectionClick();
-                            refreshWidgets();
-                          },
-                        ),
+                        child: _isLoadingWidgets
+                            ? const CupertinoActivityIndicator()
+                            : FragmentsIconButton(
+                                icon: const Icon(
+                                  CupertinoIcons.arrow_clockwise,
+                                  size: 25,
+                                  color: Color.fromARGB(255, 255, 255, 255),
+                                ),
+                                onTap: () {
+                                  HapticFeedback.selectionClick();
+                                  refreshWidgets();
+                                },
+                              ),
                       ),
                       const SizedBox(width: 10),
                       Container(
@@ -234,107 +273,128 @@ class _HomeScreenState extends State<HomeScreen> {
                           borderRadius: BorderRadius.circular(5),
                         ),
                         child: FragmentsIconButton(
-                        onTap: () {
-                          HapticFeedback.selectionClick();
+                          onTap: () {
+                            HapticFeedback.selectionClick();
 
-                          setState(() {
-                            isEditing = !isEditing;
-                          });
-                        },
-                        icon: Icon(
-                          isEditing ? CupertinoIcons.checkmark_alt : FragmentsIcons.pencil,
-                          size: 25,
-                          color: isEditing
-                              ? const Color.fromARGB(255, 68, 155, 71)
-                              : const Color.fromARGB(255, 52, 52, 52),
+                            setState(() {
+                              isEditing = !isEditing;
+                            });
+                          },
+                          icon: Icon(
+                            isEditing ? CupertinoIcons.checkmark_alt : FragmentsIcons.pencil,
+                            size: 25,
+                            color: isEditing
+                                ? const Color.fromARGB(255, 68, 155, 71)
+                                : const Color.fromARGB(255, 52, 52, 52),
+                          ),
                         ),
-                      ),
                       ),
                       const SizedBox(width: 10),
                       AnimatedOpacity(
-                        opacity: isEditing ? 1.0 : 0.0,
-                        duration: const Duration(milliseconds: 150),
-                        child: Container(
-                        padding: const EdgeInsets.all(3),
-                        decoration: BoxDecoration(
-                          color: const Color.fromARGB(255, 10, 10, 10),
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        child:FragmentsIconButton(
-                        onTap: () {
-                          debugPrint("Add button pressed");
+                          opacity: isEditing ? 1.0 : 0.0,
+                          duration: const Duration(milliseconds: 150),
+                          child: Container(
+                            padding: const EdgeInsets.all(3),
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 10, 10, 10),
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            child: FragmentsIconButton(
+                              onTap: () {
+                                debugPrint("Add button pressed");
 
-                          showCupertinoModalBottomSheet(
-                            context: context,
-                            isDismissible: true,
-                            topRadius: const Radius.circular(35),
-                            backgroundColor: const Color.fromARGB(255, 10, 10, 10),
-                            builder: (context) => Container(
-                                height: MediaQuery.of(context).size.height * 0.5,
-                                //   color: const Color.fromARGB(255, 10, 10, 10),
-                                decoration: const BoxDecoration(
-                                    color: Color.fromARGB(255, 10, 10, 10),
-                                    border: Border(
-                                      bottom: BorderSide(
-                                        //                   <--- right side
-                                        color: Color.fromARGB(255, 32, 32, 32),
-                                        width: 1.0,
-                                      ),
-                                    )),
-                                child: Padding(
-                                  padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      const Text(
-                                        "Widgets Gallery",
-                                        style: TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 30),
-                                      ),
-                                      const SizedBox(height: 5),
-                                      const Text(
-                                        "Pick & Choose Widgets to Add to Your Home Screen.",
-                                        style: TextStyle(color: Color.fromARGB(255, 52, 52, 52), fontSize: 16),
-                                      ),
-                                      const SizedBox(height: 25),
-                                      Expanded(
-                                          child: ListView(
-                                        children: [
-                                          Fragment(
-                                            name: "Service",
-                                            actionLabel: "Add Service Fragment",
-                                            preview: true,
-                                            onTap: () async {
-                                              Navigator.of(context).pop();
-                                              refreshWidgets();
-                                            },
-                                            child: const ServiceFragment(),
-                                          ),
-                                          const SizedBox(height: 15),
-                                          Fragment(
-                                            name: "Clubs",
-                                            actionLabel: "Add Clubs Fragment",
-                                            preview: true,
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                              refreshWidgets();
-                                            },
-                                            child: const ClubsFragment(),
-                                          )
-                                        ],
-                                      ))
-                                    ],
-                                  ),
-                                )),
-                          );
-                        },
-                        icon: const Icon(
-                          CupertinoIcons.add,
-                          size: 25,
-                          color: Color.fromARGB(255, 52, 52, 52),
-                        ),
-                      ),
-                      )
-                      )
+                                showCupertinoModalBottomSheet(
+                                  context: context,
+                                  isDismissible: true,
+                                  topRadius: const Radius.circular(35),
+                                  backgroundColor: const Color.fromARGB(255, 10, 10, 10),
+                                  builder: (context) => Container(
+                                      height: MediaQuery.of(context).size.height * 0.5,
+                                      //   color: const Color.fromARGB(255, 10, 10, 10),
+                                      decoration: const BoxDecoration(
+                                          color: Color.fromARGB(255, 10, 10, 10),
+                                          border: Border(
+                                            bottom: BorderSide(
+                                              //                   <--- right side
+                                              color: Color.fromARGB(255, 32, 32, 32),
+                                              width: 1.0,
+                                            ),
+                                          )),
+                                      child: Padding(
+                                        padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            const Text(
+                                              "Widgets Gallery",
+                                              style: TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 30),
+                                            ),
+                                            const SizedBox(height: 5),
+                                            const Text(
+                                              "Pick & Choose Widgets to Add to Your Home Screen.",
+                                              style: TextStyle(color: Color.fromARGB(255, 52, 52, 52), fontSize: 16),
+                                            ),
+                                            const SizedBox(height: 25),
+                                            Expanded(
+                                                child: ListView(
+                                              children: [
+                                                Fragment(
+                                                  name: "Scores",
+                                                  actionLabel: "Add Scores Fragment",
+                                                  preview: true,
+                                                  onTap: () {
+                                                    Navigator.of(context).pop();
+                                                    refreshWidgets();
+                                                  },
+                                                  child: const ScoresFragment(),
+                                                ),
+                                                const SizedBox(height: 15),
+                                                Fragment(
+                                                  name: "Service",
+                                                  actionLabel: "Add Service Fragment",
+                                                  preview: true,
+                                                  onTap: () async {
+                                                    Navigator.of(context).pop();
+                                                    refreshWidgets();
+                                                  },
+                                                  child: const ServiceFragment(),
+                                                ),
+                                                const SizedBox(height: 15),
+                                                Fragment(
+                                                  name: "Clubs",
+                                                  actionLabel: "Add Clubs Fragment",
+                                                  preview: true,
+                                                  onTap: () {
+                                                    Navigator.of(context).pop();
+                                                    refreshWidgets();
+                                                  },
+                                                  child: const ClubsFragment(),
+                                                ),
+                                                const SizedBox(height: 15),
+                                                Fragment(
+                                                  name: "Sports",
+                                                  actionLabel: "Add Sports Fragment",
+                                                  preview: true,
+                                                  onTap: () {
+                                                    Navigator.of(context).pop();
+                                                    refreshWidgets();
+                                                  },
+                                                  child: const SportsFragment(),
+                                                )
+                                              ],
+                                            ))
+                                          ],
+                                        ),
+                                      )),
+                                );
+                              },
+                              icon: const Icon(
+                                CupertinoIcons.add,
+                                size: 25,
+                                color: Color.fromARGB(255, 52, 52, 52),
+                              ),
+                            ),
+                          ))
                     ],
                   ),
                 ],

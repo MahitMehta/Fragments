@@ -7,6 +7,7 @@ import 'package:gradebook/api/models/service_record.dart';
 import 'package:gradebook/api/services/service.dart';
 import 'package:gradebook/screens/create_service_screen.dart';
 import 'package:gradebook/widgets/button.dart';
+import 'package:gradebook/widgets/empty_record.dart';
 import 'package:gradebook/widgets/service_record.dart';
 
 class ServiceScreen extends StatefulWidget {
@@ -46,6 +47,10 @@ class _ServiceScreenState extends State<ServiceScreen> {
   }
 
   Widget _buildRecordsListView(BuildContext context, List<QueryDocumentSnapshot<IServiceRecord>> snapshot) {
+    if (snapshot.isEmpty) {
+      return const EmptyRecord();
+    }
+
     return ListView(
       children: snapshot.map((data) => _buildServiceRecord(context, data)).toList(),
     );

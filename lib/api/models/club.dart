@@ -3,7 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class IClubRecord {
   final String clubName;
   final String positionHeld;
-  final String description; 
+  final String description;
   final DateTime startDate;
   final DateTime endDate;
 

@@ -1,9 +1,9 @@
 PODS:
-  - AppAuth (1.7.1):
-    - AppAuth/Core (= 1.7.1)
-    - AppAuth/ExternalUserAgent (= 1.7.1)
-  - AppAuth/Core (1.7.1)
-  - AppAuth/ExternalUserAgent (1.7.1):
+  - AppAuth (1.7.2):
+    - AppAuth/Core (= 1.7.2)
+    - AppAuth/ExternalUserAgent (= 1.7.2)
+  - AppAuth/Core (1.7.2)
+  - AppAuth/ExternalUserAgent (1.7.2):
     - AppAuth/Core
   - cloud_firestore (4.15.8):
     - Firebase/Firestore (= 10.22.0)
@@ -161,7 +161,7 @@ CHECKOUT OPTIONS:
     :tag: 10.22.0
 
 SPEC CHECKSUMS:
-  AppAuth: e93b919be5dbcbba49555011ce94f7d716368574
+  AppAuth: ca2458caccec349cc1e26d8d9e8fd7d22f1d01f3
   cloud_firestore: 97e80651e196c32554cedcd31858b9615ac8a704
   Firebase: 797fd7297b7e1be954432743a0b3f90038e45a71
   firebase_auth: 88d3a927c2b7b2ecd93c9f049698acf743f76496

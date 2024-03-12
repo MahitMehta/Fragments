@@ -2,6 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:gradebook/screens/login_screen.dart';
+import 'package:gradebook/screens/privacy.dart';
+import 'package:gradebook/screens/toc.dart';
 import 'package:gradebook/widgets/button.dart';
 
 class SettingsScreen extends StatefulWidget {
@@ -44,7 +46,6 @@ class _SettingsScreenState extends State<SettingsScreen> {
               const SizedBox(height: 20),
               SvgPicture.asset(
                 "assets/svg/settings.svg",
-            
                 width: MediaQuery.of(context).size.width - 40,
                 fit: BoxFit.contain,
               ),
@@ -53,9 +54,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 label: "Update Profile",
                 type: FragmentsButtonType.dark,
                 icon: CupertinoIcons.person,
-                onTap: () {
-
-                },
+                onTap: () {},
               ),
               const SizedBox(height: 10),
               FragmentsButton(
@@ -63,7 +62,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 type: FragmentsButtonType.dark,
                 icon: CupertinoIcons.doc,
                 onTap: () {
-
+                  Navigator.of(context, rootNavigator: true).push(
+                    CupertinoPageRoute(
+                      builder: (context) => TermsAndConditionsScreen(),
+                    ),
+                  );
                 },
               ),
               const SizedBox(height: 10),
@@ -72,7 +75,11 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 type: FragmentsButtonType.dark,
                 icon: CupertinoIcons.lock,
                 onTap: () {
-
+                  Navigator.of(context, rootNavigator: true).push(
+                    CupertinoPageRoute(
+                      builder: (context) => const PrivacyScreen(),
+                    ),
+                  );
                 },
               ),
             ],

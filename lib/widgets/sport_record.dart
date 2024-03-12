@@ -3,22 +3,22 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/rendering.dart';
-import 'package:gradebook/api/models/service_record.dart';
+import 'package:gradebook/api/models/sport.dart';
 import 'package:gradebook/widgets/share.dart';
 import 'package:gradebook/widgets/share_menu.dart';
 import 'package:modal_bottom_sheet/modal_bottom_sheet.dart';
 
-class ServiceRecord extends StatefulWidget {
-  final IServiceRecord record;
+class SportRecord extends StatefulWidget {
+  final ISportRecord record;
   final void Function(Uint8List, String) onShare;
 
-  const ServiceRecord({super.key, required this.record, required this.onShare});
+  const SportRecord({super.key, required this.record, required this.onShare});
 
   @override
-  State<ServiceRecord> createState() => _ServiceRecordState();
+  State<SportRecord> createState() => _SportRecordState();
 }
 
-class _ServiceRecordState extends State<ServiceRecord> with TickerProviderStateMixin {
+class _SportRecordState extends State<SportRecord> with TickerProviderStateMixin {
   final GlobalKey _globalKey = GlobalKey();
 
   late final AnimationController _controller =
@@ -70,19 +70,18 @@ class _ServiceRecordState extends State<ServiceRecord> with TickerProviderStateM
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          widget.record.organization,
+                          widget.record.event,
                           style: const TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 20),
                         ),
                         const SizedBox(height: 3),
                         Text(
-                          "${widget.record.dateOfService.month}/${widget.record.dateOfService.day}/${widget.record.dateOfService.year}",
+                          "${widget.record.dateOfRecord.month}/${widget.record.dateOfRecord.day}/${widget.record.dateOfRecord.year}",
                           style: const TextStyle(color: Color.fromARGB(255, 177, 177, 177), fontSize: 15),
                         ),
                       ],
                     ),
                     // TODO: Text gradient vs. background gradient
-                    Text(
-                        "${Duration(minutes: widget.record.minutesServed).inHours}h ${Duration(minutes: widget.record.minutesServed).inMinutes.remainder(60)}m",
+                    Text(widget.record.performance,
                         style: TextStyle(
                             fontSize: 18,
                             foreground: Paint()
@@ -102,11 +101,10 @@ class _ServiceRecordState extends State<ServiceRecord> with TickerProviderStateM
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
                       Text(
-                        widget.record.description,
+                        "Sport: ${widget.record.sportName}",
                         style: const TextStyle(
                           color: Color.fromARGB(255, 52, 52, 52),
                           fontSize: 15,
-                          fontStyle: FontStyle.italic,
                         ),
                       ),
                       Share(onTap: () async {

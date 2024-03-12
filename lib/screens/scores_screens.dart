@@ -3,50 +3,51 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:gradebook/api/models/club.dart';
-import 'package:gradebook/api/services/club.dart';
-import 'package:gradebook/screens/create_club_screen.dart';
+import 'package:gradebook/api/models/score.dart';
+import 'package:gradebook/api/services/score.dart';
+import 'package:gradebook/screens/create_score_screen.dart';
 import 'package:gradebook/widgets/button.dart';
-import 'package:gradebook/widgets/club_record.dart';
 import 'package:gradebook/widgets/empty_record.dart';
+import 'package:gradebook/widgets/score_record.dart';
+import 'package:gradebook/widgets/sport_record.dart';
 
-class ClubsScreen extends StatefulWidget {
-  const ClubsScreen({super.key});
+class ScoresScreen extends StatefulWidget {
+  const ScoresScreen({super.key});
 
   @override
-  State<ClubsScreen> createState() => _ClubsScreenState();
+  State<ScoresScreen> createState() => _ScoresScreenState();
 }
 
-class _ClubsScreenState extends State<ClubsScreen> {
+class _ScoresScreenState extends State<ScoresScreen> {
   static const igShareChannel = MethodChannel('com.mahitm.fragments/igShare');
-  final ClubService _clubsService = ClubService();
+  final ScoreService _scoreService = ScoreService();
 
-  StreamController<QuerySnapshot<IClubRecord>> recordStreamController = StreamController();
+  StreamController<QuerySnapshot<IScoreRecord>> recordStreamController = StreamController();
   bool _isLoadingRecords = true;
   bool _addedNewRecord = false;
 
   @override
   void initState() {
     super.initState();
-    recordStreamController.addStream(_clubsService.getClubRecords().asStream()).then((value) => setState(() {
+    recordStreamController.addStream(_scoreService.getScoreRecords().asStream()).then((value) => setState(() {
           _isLoadingRecords = false;
         }));
   }
 
-  Widget _buildServiceRecord(BuildContext context, QueryDocumentSnapshot<IClubRecord> data) {
-    final serviceRecord = data.data();
+  Widget _buildServiceRecord(BuildContext context, QueryDocumentSnapshot<IScoreRecord> data) {
+    final scoreRecord = data.data();
 
     return Padding(
         padding: const EdgeInsets.only(bottom: 15),
-        child: ClubRecord(
-            record: serviceRecord,
+        child: ScoreRecord(
+            record: scoreRecord,
             onShare: (Uint8List pngBytes, String type) async {
               final String result = await igShareChannel.invokeMethod(type, pngBytes);
               debugPrint(result);
             }));
   }
 
-  Widget _buildRecordsListView(BuildContext context, List<QueryDocumentSnapshot<IClubRecord>> snapshot) {
+  Widget _buildRecordsListView(BuildContext context, List<QueryDocumentSnapshot<IScoreRecord>> snapshot) {
     if (snapshot.isEmpty) {
       return const EmptyRecord();
     }
@@ -57,7 +58,7 @@ class _ClubsScreenState extends State<ClubsScreen> {
   }
 
   Widget _buildRecords() {
-    return StreamBuilder<QuerySnapshot<IClubRecord>>(
+    return StreamBuilder<QuerySnapshot<IScoreRecord>>(
       stream: recordStreamController.stream,
       builder: (context, snapshot) {
         if (!snapshot.hasData) return const SizedBox.shrink();
@@ -73,7 +74,7 @@ class _ClubsScreenState extends State<ClubsScreen> {
     });
     debugPrint("Reloading Records");
     await Future.delayed(const Duration(milliseconds: 500));
-    await _clubsService.getClubRecords().then((value) {
+    await _scoreService.getScoreRecords().then((value) {
       debugPrint("Successfully Reloaded Records");
       recordStreamController.add(value);
     }).whenComplete(() => setState(() {
@@ -85,7 +86,7 @@ class _ClubsScreenState extends State<ClubsScreen> {
   Widget build(BuildContext context) {
     return CupertinoPageScaffold(
         navigationBar: const CupertinoNavigationBar(
-          middle: Text("Club Fragment"),
+          middle: Text("Scores Fragment"),
           backgroundColor: Color.fromARGB(255, 0, 0, 0),
         ),
         child: SafeArea(
@@ -98,10 +99,10 @@ class _ClubsScreenState extends State<ClubsScreen> {
               const SizedBox(height: 15),
               FragmentsButton(
                   type: FragmentsButtonType.gradient,
-                  label: "Record New Club",
+                  label: "Record New Score",
                   onTap: () async {
                     final update = await Navigator.of(context)
-                        .push(CupertinoPageRoute(builder: (context) => const CreateClubScreen()));
+                        .push(CupertinoPageRoute(builder: (context) => const CreateScoreScreen()));
 
                     if (!context.mounted || !update) return;
                     setState(() {
@@ -114,7 +115,7 @@ class _ClubsScreenState extends State<ClubsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   const Text(
-                    "Club Records",
+                    "Score Records",
                     style: TextStyle(color: Color.fromARGB(255, 255, 255, 255), fontSize: 30),
                   ),
                   GestureDetector(

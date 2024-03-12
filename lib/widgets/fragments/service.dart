@@ -19,7 +19,7 @@ class _ServiceFragmentState extends State<ServiceFragment> {
   final ServicesService _servicesService = ServicesService();
   final StreamController<QuerySnapshot<IServiceRecord>> recordStreamController = StreamController();
 
-  bool _isLoading = false; 
+  bool _isLoading = false;
 
   @override
   void initState() {
@@ -35,8 +35,8 @@ class _ServiceFragmentState extends State<ServiceFragment> {
     _servicesService.getWeeklyService().then((value) {
       recordStreamController.add(value);
     }).whenComplete(() => setState(() {
-      _isLoading = false;
-    }));
+          _isLoading = false;
+        }));
   }
 
   @override
@@ -59,22 +59,20 @@ class _ServiceFragmentState extends State<ServiceFragment> {
                 ],
               ),
               Positioned(
-                right: 5,
-                top: 0,
-                child: SizedBox(
-                  width: 15,
-                  height: 15,
-                  child: _isLoading ? const CupertinoActivityIndicator() : FragmentsIconButton(
-                  onTap: () {
-                    refreshWeeklyChart();
-                  },
-                  icon: const Icon(
-                    CupertinoIcons.arrow_clockwise,
-                    color: Color.fromARGB(255, 255, 255, 255)
-                  ),
-                  )
-                )
-                ),
+                  right: 5,
+                  top: 0,
+                  child: SizedBox(
+                      width: 15,
+                      height: 15,
+                      child: _isLoading
+                          ? const CupertinoActivityIndicator()
+                          : FragmentsIconButton(
+                              onTap: () {
+                                refreshWeeklyChart();
+                              },
+                              icon:
+                                  const Icon(CupertinoIcons.arrow_clockwise, color: Color.fromARGB(255, 255, 255, 255)),
+                            ))),
             ],
           ),
           WeeklyGraph(

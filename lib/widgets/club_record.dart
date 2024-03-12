@@ -90,14 +90,12 @@ class _ClubRecordState extends State<ClubRecord> with TickerProviderStateMixin {
                               "${widget.record.endDate.month}/${widget.record.endDate.day}/${widget.record.endDate.year}",
                               style: const TextStyle(color: Color.fromARGB(255, 177, 177, 177), fontSize: 15),
                             ),
-
                           ],
                         )
                       ],
                     ),
                     // TODO: Text gradient vs. background gradient
-                    Text(
-                        widget.record.positionHeld,
+                    Text(widget.record.positionHeld,
                         style: TextStyle(
                             fontSize: 18,
                             foreground: Paint()
@@ -150,7 +148,6 @@ class _ClubRecordState extends State<ClubRecord> with TickerProviderStateMixin {
                                 },
                               );
                             });
-                        
                       })
                     ])
               ],
