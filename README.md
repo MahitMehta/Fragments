@@ -2,6 +2,8 @@
 
 Fragments is a mobile application that allows students to document and share different aspects of their high school career such as, but not limited to, community service hours, academic achievements, clubs/organizations, etc.
 
+![Simulator Screenshot - iPhone 15 Pro - 2024-03-12 at 10 02 53](https://github.com/MahitMehta/Fragments/assets/73650235/309ad673-99d3-43f7-b1c3-60e10a6769eb)
+
 # Sources (Copyright compliance)
 
 ## Repositiories: 
