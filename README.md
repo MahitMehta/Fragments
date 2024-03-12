@@ -6,9 +6,9 @@ Fragments is a mobile application that allows students to document and share dif
 
 ## Repositiories: 
 
-### 1. Flutter 
-### 2. Firebase
-### 5. Facebook iOS SDK 
+### 1. Flutter - [https://github.com/flutter/flutter](https://github.com/flutter/flutter)
+### 2. Firebase - [https://github.com/firebase/](https://github.com/firebase/)
+### 5. Facebook iOS SDK - [https://developers.facebook.com/docs/ios/](https://developers.facebook.com/docs/ios/)
 
 ## Sources: 
 
