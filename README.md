@@ -10,6 +10,12 @@ Fragments is a mobile application that allows students to document and share dif
 ### 2. Firebase
 ### 5. Facebook iOS SDK 
 
+## Sources: 
+
+1. Facebook SDK - [https://developers.facebook.com/docs/](https://developers.facebook.com/docs/)
+2. Apple Documentation - [https://developer.apple.com/documentation/](https://developer.apple.com/documentation/)
+3. Undraw - [https://undraw.co/illustrations](https://undraw.co/illustrations)
+
 # Run
 
 1. `cd ios && pod install`
